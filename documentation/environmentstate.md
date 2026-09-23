@@ -39,7 +39,7 @@ The lab is intentionally kept small to allow findings to be investigated and doc
 
 The assessment workstation will be used to perform authorized testing against systems within the controlled environment.
 
-Potential tools include:
+Tools include:
 
 - Nmap
 - OWASP ZAP
