@@ -2,7 +2,7 @@
 Simulated enterprise cybersecurity assessment covering vulnerability identification, attack-path analysis, risk evaluation and remediation.
 
 
-*This project was conducted within a controlled, simulated environment for educational and portfolio purposes. No production systems or unauthorized third-party infrastructure were tested, only necessary evidence for the assessment will be shown publicly.
+*This project was conducted within a controlled, simulated environment for educational and portfolio purposes. No production systems or unauthorized third-party infrastructure were tested, only necessary evidence for the assessment will be shown publicly. AI assisted formatting
 
 ## Assessment Objectives
 
