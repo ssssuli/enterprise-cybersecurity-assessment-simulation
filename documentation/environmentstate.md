@@ -119,3 +119,5 @@ The environment may be reset or restored if testing modifies a vulnerable target
 Significant configuration changes made during the assessment will be documented where they affect testing results.
 
 This helps maintain reproducibility and ensures findings can be understood within the correct technical context.
+
+Environment changelog if applicable will be shown below:
