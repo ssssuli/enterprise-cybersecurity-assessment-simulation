@@ -33,7 +33,8 @@ The lab is intentionally kept small to allow findings to be investigated and doc
 | Attribute | Details |
 |---|---|
 | System | Security Assessment Workstation |
-| Operating System | To Be Confirmed |
+| Operating System | Kali Linux |
+| IP Address | 192.168.247.128 |
 | Role | Conduct security testing and analysis |
 | Assessment Target | No |
 
@@ -55,9 +56,9 @@ Tools include:
 
 | Attribute | Details |
 |---|---|
-| Hostname | To Be Confirmed |
-| IP Address | To Be Confirmed |
-| Operating System | To Be Confirmed |
+| Hostname | metasploitable |
+| IP Address | 192.168.159.129 |
+| Operating System | Ubuntu Linux (intentionally vulnerable) |
 | Role | Simulated enterprise server |
 | Scope | In Scope |
 
