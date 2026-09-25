@@ -57,7 +57,7 @@ Tools include:
 | Attribute | Details |
 |---|---|
 | Hostname | metasploitable |
-| IP Address | 192.168.159.129 |
+| IP Address | 192.168.247.129 |
 | Operating System | Ubuntu Linux (intentionally vulnerable) |
 | Role | Simulated enterprise server |
 | Scope | In Scope |
@@ -91,8 +91,8 @@ The environment will use an isolated or controlled virtual network to prevent as
 
 | Asset ID | Asset | IP Address | Operating System | Function | Status |
 |---|---|---|---|---|---|
-| AS-01 | Assessment Workstation | Pending | Pending | Security Testing | Pending |
-| TG-01 | Vulnerable Linux Server | Pending | Pending | Enterprise Server | Pending |
+| AS-01 | Kali Linux | 192.168.247.128 | Security Assessment Workstation | Active |
+| TG-01 | Metasploitable 2 | 192.168.247.129 | Simulated Enterprise Server | Active |
 | TG-02 | Vulnerable Web Application | Pending | Pending | Web Application | Pending |
 
 This table will be updated after deployment and initial asset discovery.
