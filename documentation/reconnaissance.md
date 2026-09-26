@@ -71,3 +71,18 @@ Results will be used to prioritize deeper enumeration and vulnerability validati
 Raw scan evidence is retained under:
 
 `evidence/reconnaissance/initial-port-scan.txt`
+
+
+## Service Version Enumeration
+
+Service version detection was performed against the open TCP ports identified during initial discovery.
+
+Command used:
+
+`nmap -sV -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,5432,5900,6000,6667,8009,8180 192.168.247.129`
+
+The assessment identified multiple legacy and externally reachable services, including FTP, Telnet, SMB, NFS, database services, web application services and remote administration protocols.
+
+Several services exposed identifiable product versions that warrant further investigation for known vulnerabilities or insecure configuration.
+
+At this stage, It is important to note that I've chosen to use the service version information and treat it as an enumeration result rather than confirmation of vulnerability. Further testing and validation will be required
