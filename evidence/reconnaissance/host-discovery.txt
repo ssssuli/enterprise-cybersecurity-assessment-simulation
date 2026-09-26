@@ -1,0 +1,13 @@
+# Nmap 7.98 scan initiated Sat Sep 26 03:23:17 2026 as: /usr/lib/nmap/nmap --privileged -sn -oN host-discovery.txt 192.168.247.0/24
+Nmap scan report for 192.168.247.1
+Host is up (0.00034s latency).
+MAC Address: 00:50:56:C0:00:01 (VMware)
+Nmap scan report for 192.168.247.129
+Host is up (0.0013s latency).
+MAC Address: 00:0C:29:76:C2:32 (VMware)
+Nmap scan report for 192.168.247.254
+Host is up (0.00012s latency).
+MAC Address: 00:50:56:F6:23:20 (VMware)
+Nmap scan report for 192.168.247.128
+Host is up.
+# Nmap done at Sat Sep 26 03:23:29 2026 -- 256 IP addresses (4 hosts up) scanned in 12.38 seconds
