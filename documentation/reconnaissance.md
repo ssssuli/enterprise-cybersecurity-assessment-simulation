@@ -6,6 +6,26 @@ Initial reconnaissance was performed against the authorized target `192.168.247.
 
 The assessment workstation used for testing was Kali Linux at `192.168.247.128`.
 
+Port
+  ↓
+Service
+  ↓
+Version
+  ↓
+Security relevance
+  ↓
+Enumeration hypothesis
+  ↓
+Evidence
+  ↓
+Potential vulnerability
+  ↓
+Manual validation
+  ↓
+Risk
+  ↓
+Remediation
+
 ---
 
 ## Initial TCP Port Discovery
