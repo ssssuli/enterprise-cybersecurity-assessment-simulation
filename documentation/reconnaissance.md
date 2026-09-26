@@ -84,6 +84,12 @@ Command used:
 
 The assessment identified multiple legacy and externally reachable services, including FTP, Telnet, SMB, NFS, database services, web application services and remote administration protocols.
 
+4 areas will be taken into account to for this assessment
+- NFS
+- SMB
+- Web
+- FTP
+
 Several services exposed identifiable product versions that warrant further investigation for known vulnerabilities or insecure configuration.
 
 At this stage, It is important to note that I've chosen to use the service version information and treat it as an enumeration result rather than confirmation of vulnerability. Further testing and validation will be required
