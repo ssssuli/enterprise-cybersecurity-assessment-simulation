@@ -1,0 +1,7 @@
+total 24
+drwxr-xr-x  6 root root    4096 Apr 16  2010 .
+drwxr-xr-x 21 root root    4096 May 21  2012 ..
+drwxr-xr-x  2 root nogroup 4096 Mar 17  2010 ftp
+drwxr-xr-x  5 kali kali    4096 May 21  2012 msfadmin
+drwxr-xr-x  2 1002    1002 4096 Apr 16  2010 service
+drwxr-xr-x  3 1001    1001 4096 May  8  2010 user
