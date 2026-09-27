@@ -1,0 +1,52 @@
+# Nmap 7.98 scan initiated Sat Sep 26 17:20:41 2026 as: /usr/lib/nmap/nmap --privileged -p139,445 --script smb-protocols,smb-enum-shares -oN smb-enumeration.txt 192.168.247.129
+Nmap scan report for 192.168.247.129
+Host is up (0.00022s latency).
+
+PORT    STATE SERVICE
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+MAC Address: 00:0C:29:76:C2:32 (VMware)
+
+Host script results:
+| smb-enum-shares: 
+|   account_used: <blank>
+|   \\192.168.247.129\ADMIN$: 
+|     Type: STYPE_IPC
+|     Comment: IPC Service (metasploitable server (Samba 3.0.20-Debian))
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: C:\tmp
+|     Anonymous access: <none>
+|   \\192.168.247.129\IPC$: 
+|     Type: STYPE_IPC
+|     Comment: IPC Service (metasploitable server (Samba 3.0.20-Debian))
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: C:\tmp
+|     Anonymous access: READ/WRITE
+|   \\192.168.247.129\opt: 
+|     Type: STYPE_DISKTREE
+|     Comment: 
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: C:\tmp
+|     Anonymous access: <none>
+|   \\192.168.247.129\print$: 
+|     Type: STYPE_DISKTREE
+|     Comment: Printer Drivers
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: C:\var\lib\samba\printers
+|     Anonymous access: <none>
+|   \\192.168.247.129\tmp: 
+|     Type: STYPE_DISKTREE
+|     Comment: oh noes!
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: C:\tmp
+|_    Anonymous access: READ/WRITE
+| smb-protocols: 
+|   dialects: 
+|_    NT LM 0.12 (SMBv1) [dangerous, but default]
+
+# Nmap done at Sat Sep 26 17:20:46 2026 -- 1 IP address (1 host up) scanned in 4.94 seconds
