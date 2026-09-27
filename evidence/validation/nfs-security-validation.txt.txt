@@ -1,0 +1,28 @@
+┌──(kali㉿kali)-[~/Desktop]
+└─$ sudo mount -t nfs 192.168.247.129:/ /mnt/asteria-nfs
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ mount | grep asteria-nfs
+192.168.247.129:/ on /mnt/asteria-nfs type nfs (rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,fatal_neterrors=none,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.247.129,mountvers=3,mountport=42291,mountproto=udp,local_lock=none,addr=192.168.247.129)
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ sudo touch /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ 
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ sudo touch /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ls -l /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+-rw-r--r-- 1 root root 0 Sep 27  2026 /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+
+┌──(kali㉿kali)-[~/Desktop]
+└─$ sudo rm /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ls -l /mnt/asteria-nfs/tmp/nfs-security-validation.txt
+ls: cannot access '/mnt/asteria-nfs/tmp/nfs-security-validation.txt': No such file or directory
+
+             
