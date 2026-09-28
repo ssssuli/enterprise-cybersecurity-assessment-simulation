@@ -1,0 +1,29 @@
+┌──(kali㉿kali)-[~/Desktop]
+└─$ printf 'Controlled FTP write validation - authorized lab only\n' > ftp-write-validation.txt
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ cat ftp-write-validation.txt
+Controlled FTP write validation - authorized lab only
+                                                                             
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ftp 192.168.247.129
+Connected to 192.168.247.129.
+220 (vsFTPd 2.3.4)
+Name (192.168.247.129:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> pwd
+Remote directory: /
+ftp> ls -la
+229 Entering Extended Passive Mode (|||50163|).
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 .
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 ..
+226 Directory send OK.
+ftp> put ftp-write-validation.txt
+local: ftp-write-validation.txt remote: ftp-write-validation.txt
+229 Entering Extended Passive Mode (|||31626|).
+553 Could not create file.
