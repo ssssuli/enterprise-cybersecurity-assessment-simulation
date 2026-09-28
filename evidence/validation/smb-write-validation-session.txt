@@ -1,0 +1,36 @@
+Script started on 2026-09-28 17:14:01+08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="77" LINES="28"]
+                                                                             ]0;kali@kali: ~/Desktop[0m[27m[24m[J[32m┌──([1m[32m[34mkali㉿kali[0m[34m[32m)-[[1m[32m[39m~/Desktop[0m[32m]
+└─[1m[32m[34m$[0m[34m[39m [K[?1h=[?2004hprintf 'Controlled SMB write validation - authorized lab only\n' > smb-write-validation.txt[K[A[14D[36mp[36mr[36mi[36mn[36mt[36mf[39m [33m'[33mC[33mo[33mn[33mt[33mr[33mo[33ml[33ml[33me[33md[33m [33mS[33mM[33mB[33m [33mw[33mr[33mi[33mt[33me[33m [33mv[33ma[33ml[33mi[33md[33ma[33mt[33mi[33mo[33mn[33m [33m-[33m [33ma[33mu[33mt[33mh[33mo[33mr[33mi[33mz[33me[33md[33m [33ml[33ma[33mb[33m [33mo[33mn[33ml[33my[33m\[33mn[33m'[39m [1m[34m>[0m[39m[1B[52D t[A[76C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1B[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[?1l>[?2004l
+                                                                             ]0;kali@kali: ~/Desktop
+[0m[27m[24m[J[32m┌──([1m[32m[34mkali㉿kali[0m[34m[32m)-[[1m[32m[39m~/Desktop[0m[32m]
+└─[1m[32m[34m$[0m[34m[39m [K[?1h=[?2004hsmbclient //192.168.247.129/tmp -N[34D[36ms[36mm[36mb[36mc[36ml[36mi[36me[36mn[36mt[39m[23C[32m-[32mN[39m[?1l>[?2004l
+Anonymous login successful
+Try "help" to get a list of possible commands.
+[?2004hsmb: \> [7mput smb-write-validation.txt[27m[C[C[C[C[C[C[C[Cput smb-write-validation.txt
+[?2004lputting file smb-write-validation.txt as \smb-write-validation.txt (52.7 kB/s) (average 52.7 kB/s)
+[?2004hsmb: \> ls
+[?2004l  .                                   D        0  Mon Sep 28 17:16:32 2026
+  ..                                 DR        0  Mon May 21 02:36:12 2012
+  5119.jsvc_up                        R        0  Mon Sep 28 15:40:26 2026
+  .ICE-unix                          DH        0  Mon Sep 28 15:39:28 2026
+  .X11-unix                          DH        0  Mon Sep 28 15:39:52 2026
+  .X0-lock                           HR       11  Mon Sep 28 15:39:52 2026
+  smb-write-validation.txt            A       54  Mon Sep 28 17:16:32 2026
+
+		7282168 blocks of size 1024. 5429864 blocks available
+[?2004hsmb: \> del[K[K[Kdel asm[K[K[Ksmb-write-validation.txt
+[?2004l[?2004hsmb: \> ls
+[?2004l  .                                   D        0  Mon Sep 28 17:16:56 2026
+  ..                                 DR        0  Mon May 21 02:36:12 2012
+  5119.jsvc_up                        R        0  Mon Sep 28 15:40:26 2026
+  .ICE-unix                          DH        0  Mon Sep 28 15:39:28 2026
+  .X11-unix                          DH        0  Mon Sep 28 15:39:52 2026
+  .X0-lock                           HR       11  Mon Sep 28 15:39:52 2026
+
+		7282168 blocks of size 1024. 5429868 blocks available
+[?2004hsmb: \> q[Kexit[K[K[K[Kquit
+[?2004l                                                                             ]0;kali@kali: ~/Desktop
+[0m[27m[24m[J[32m┌──([1m[32m[34mkali㉿kali[0m[34m[32m)-[[1m[32m[39m~/Desktop[0m[32m]
+└─[1m[32m[34m$[0m[34m[39m [K[?1h=[?2004he[4me[24m[4me[24m[38;5;244mxit[39m[4me[39m[4mx[24m[24m[36me[24m[36mx[39m[36me[36mx[36mi[39m[39m[4me[39m[4mx[39m[4mi[24m[4mi[39m[4mt[24m[24m[36me[24m[36mx[24m[36mi[24m[36mt[39m[?1l>[?2004l
+
+Script done on 2026-09-28 17:17:08+08:00 [COMMAND_EXIT_CODE="0"]
