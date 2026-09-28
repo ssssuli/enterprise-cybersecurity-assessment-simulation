@@ -1,0 +1,34 @@
+Script started on 2026-09-28 15:51:28+08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="77" LINES="28"]
+                                                                             ]0;kali@kali: ~/Desktop[0m[27m[24m[J[32m┌──([1m[32m[34mkali㉿kali[0m[34m[32m)-[[1m[32m[39m~/Desktop[0m[32m]
+└─[1m[32m[34m$[0m[34m[39m [K[?1h=[?2004hftp 192.168.247.129[19D[36mf[36mt[36mp[39m[16C[?1l>[?2004l
+Connected to 192.168.247.129.
+220 (vsFTPd 2.3.4)
+Name (192.168.247.129:kali): anonymous
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> pwd
+Remote directory: /
+ftp> ls- [9G[8G[K -la
+229 Entering Extended Passive Mode (|||11984|).
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 .
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 ..
+226 Directory send OK.
+ftp> cd ,[9G[K.
+250 Directory successfully changed.
+ftp> ls-[8G[K -la
+229 Entering Extended Passive Mode (|||15331|).
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 .
+drwxr-xr-x    2 0        65534        4096 Mar 17  2010 ..
+226 Directory send OK.
+ftp> quit
+221 Goodbye.
+                                                                             ]0;kali@kali: ~/Desktop
+[0m[27m[24m[J[32m┌──([1m[32m[34mkali㉿kali[0m[34m[32m)-[[1m[32m[39m~/Desktop[0m[32m]
+└─[1m[32m[34m$[0m[34m[39m [K[?1h=[?2004he[4me[24m[4me[4mx[24m[24m[36me[24m[36mx[39m[36me[36mx[36mi[39m[39m[4me[39m[4mx[39m[4mi[24m[4mi[4mt[24m[24m[36me[24m[36mx[24m[36mi[24m[36mt[39m[?1l>[?2004l
+
+Script done on 2026-09-28 15:54:55+08:00 [COMMAND_EXIT_CODE="0"]
