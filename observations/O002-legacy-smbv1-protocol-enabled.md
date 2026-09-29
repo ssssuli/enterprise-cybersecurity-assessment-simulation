@@ -14,9 +14,11 @@
 
 **Confirmed**
 
-SMB protocol enumeration confirmed that the target server supports the legacy SMBv1 protocol using the `NT LM 0.12` dialect.
+SMB protocol enumeration confirmed that the target server supported the legacy SMBv1 protocol using the `NT LM 0.12` dialect.
 
-No SMBv1-specific exploit was attempted or validated during this assessment. This observation is therefore limited to the confirmed use of a deprecated protocol and should not be interpreted as evidence that a specific SMB vulnerability or CVE is exploitable.
+No SMBv1-specific vulnerability or CVE was validated during the assessment.
+
+This observation therefore documents the confirmed use of a legacy protocol and does not claim that a specific SMB exploit was successful or applicable.
 
 ---
 
@@ -25,22 +27,38 @@ No SMBv1-specific exploit was attempted or validated during this assessment. Thi
 | Attribute | Details |
 |---|---|
 | Asset | Simulated Enterprise Server |
-| IP Address | 192.168.247.129 |
+| Asset ID | TG-01 |
+| IP Address | `192.168.247.129` |
 | Service | SMB / Samba |
 | Ports | TCP/139, TCP/445 |
-| Observed Protocol | SMBv1 / NT LM 0.12 |
+| Observed Protocol | SMBv1 / `NT LM 0.12` |
+| Status | Confirmed |
 
 ---
 
 ## Description
 
-The target SMB service supports SMBv1, identified during protocol enumeration as the `NT LM 0.12` dialect.
+The target SMB service accepted the SMBv1 protocol.
 
-SMBv1 is a legacy version of the Server Message Block protocol. Modern implementations have deprecated or disabled SMBv1 by default because newer SMB versions provide stronger security capabilities and reduce exposure associated with legacy protocol behavior.
+Protocol enumeration identified the accepted dialect as:
 
-The presence of SMBv1 increases the attack surface of the SMB service and may require older, weaker protocol behavior for compatibility.
+```text
+NT LM 0.12 (SMBv1)
+```
 
-This observation is separate from the anonymously writable SMB share documented in F-002. The writable share represents an access-control weakness, whereas this observation concerns the use of a legacy network protocol.
+SMBv1 is a legacy version of the Server Message Block protocol.
+
+Retaining unnecessary legacy protocols increases the exposed attack surface and may require continued compatibility with older protocol behavior.
+
+This observation is separate from:
+
+**F-002 — Anonymous Read/Write Access to SMB Temporary Share**
+
+F-002 concerns an independently validated access-control weakness.
+
+O-002 concerns the continued availability of a legacy SMB protocol.
+
+The two issues should therefore remain separately documented.
 
 ---
 
@@ -55,11 +73,19 @@ The target exposed SMB-related services on:
 445/tcp open  microsoft-ds
 ```
 
+Supporting evidence:
+
+```text
+evidence/enumeration/smb-enumeration.txt
+```
+
 ---
 
-### Protocol Enumeration
+### SMB Protocol Enumeration
 
-SMB protocol enumeration returned:
+Protocol enumeration was performed using the Nmap `smb-protocols` script.
+
+The assessment output returned:
 
 ```text
 smb-protocols:
@@ -67,102 +93,169 @@ smb-protocols:
     NT LM 0.12 (SMBv1) [dangerous, but default]
 ```
 
-This confirms that the target accepts the SMBv1 `NT LM 0.12` dialect.
+This confirms that the target accepted the SMBv1 `NT LM 0.12` dialect.
 
----
+Supporting evidence:
 
-## Security Impact
-
-The use of SMBv1 increases security risk because it relies on a legacy protocol that has been deprecated by modern Samba and Microsoft implementations.
-
-Potential security concerns include:
-
-- Increased exposure to vulnerabilities that affect legacy SMB implementations
-- Reduced availability of security protections provided by newer SMB protocol versions
-- Continued dependence on outdated client or server compatibility
-- Increased attack surface on systems where SMBv1 is not operationally required
-
-The assessment did **not** demonstrate exploitation of a specific SMBv1 vulnerability.
-
-Accordingly, this issue is documented as a security observation rather than being presented as proof of system compromise.
-
----
-
-## Risk Analysis
-
-### Likelihood
-
-**Medium**
-
-The SMB service is reachable from the assessment network and SMBv1 support was directly confirmed. However, no SMBv1-specific exploitability was tested as part of this observation.
-
-### Impact
-
-**Medium**
-
-The potential impact depends on the specific Samba implementation, patch state, configuration, and whether a relevant SMBv1 weakness is present.
-
-No direct compromise was demonstrated through SMBv1 during this assessment.
-
-### Overall Priority
-
-**Medium**
-
-The protocol should be retired where it is not explicitly required, but the evidence collected does not support assigning the same severity as the confirmed anonymous read/write SMB share.
-
----
-
-## Recommendation
-
-Recommended actions include:
-
-1. Disable SMBv1 support where it is not explicitly required.
-2. Configure the SMB service to require SMBv2 or SMBv3 where supported.
-3. Identify any legacy systems or applications that still depend on SMBv1 before disabling the protocol.
-4. Upgrade or replace systems that cannot operate using modern SMB versions.
-5. Keep Samba and the underlying operating system fully patched.
-6. Restrict SMB access to trusted network segments using firewall rules or network segmentation.
-7. Periodically review enabled SMB protocol versions as part of system-hardening activities.
-
-For Samba deployments, modern versions can be configured to require SMB2 or later through the server minimum protocol configuration where appropriate.
-
----
-
-## Remediation Validation
-
-Following remediation, repeat SMB protocol enumeration:
-
-```bash
-nmap -p139,445 --script smb-protocols 192.168.247.129
+```text
+evidence/enumeration/smb-enumeration.txt
 ```
 
-The resulting output should no longer list:
+---
+
+## Validation Boundary
+
+The purpose of this observation was to determine whether SMBv1 was enabled.
+
+That objective was satisfied once protocol enumeration confirmed:
 
 ```text
 NT LM 0.12 (SMBv1)
 ```
 
-Testing should also confirm that legitimate clients can continue to access required SMB resources using a supported modern protocol.
+The assessment did **not** proceed to:
+
+- Associate the service with a specific SMBv1 CVE without validation
+- Attempt an SMBv1-specific exploit
+- Execute remote code through SMBv1
+- Establish a reverse shell
+- Demonstrate privilege escalation
+- Claim host compromise through the protocol
+
+Those conclusions would require additional evidence beyond confirming that SMBv1 was enabled.
 
 ---
 
-## Assessment Note
+## Security Impact
 
-This observation should not be described as:
+The use of SMBv1 increases security exposure by retaining support for a legacy protocol.
+
+Potential concerns include:
+
+- Increased attack surface
+- Continued reliance on legacy protocol behavior
+- Reduced benefit from security improvements available in newer SMB versions
+- Compatibility requirements that may prevent full service hardening
+
+However, this assessment did not demonstrate:
+
+- SMBv1-specific code execution
+- SMBv1-specific privilege escalation
+- Exploitation of a known CVE
+- Host compromise attributable to SMBv1
+
+The demonstrated condition is therefore limited to **legacy protocol exposure**.
+
+---
+
+## Priority Analysis
+
+### Likelihood — Medium
+
+The likelihood is assessed as **Medium** because:
+
+- SMB was directly reachable from the assessment network.
+- SMBv1 support was directly confirmed.
+- A network client could negotiate the legacy protocol.
+
+However:
+
+- A specific SMBv1 vulnerability was not validated.
+- Exploitability depends on additional factors not established by this observation.
+
+---
+
+### Impact — Medium
+
+The impact is assessed as **Medium** because retaining SMBv1 increases attack surface and may expose the system to weaknesses associated with legacy SMB implementations.
+
+However:
+
+- No protocol-specific compromise was demonstrated.
+- No code execution was demonstrated.
+- No privilege escalation was demonstrated.
+- No specific CVE was validated.
+
+---
+
+### Overall Priority — Medium
+
+**Medium**
+
+The issue should be remediated as part of system hardening, but the available evidence does not justify treating SMBv1 support itself as a confirmed high-severity vulnerability.
+
+See:
+
+[`../documentation/risk-methodology.md`](../documentation/risk-methodology.md)
+
+---
+
+## Relationship to F-002
+
+This observation should not be confused with:
+
+[`../findings/F002-anonymous-smb-read-write-access.md`](../findings/F002-anonymous-smb-read-write-access.md)
+
+The two issues represent different security conditions.
+
+### F-002
 
 ```text
-"SMBv1 exploit confirmed"
+Anonymous SMB access
+        ↓
+Writable tmp share
+        ↓
+Remote file creation confirmed
 ```
 
-or:
+This represents a directly validated access-control weakness.
+
+### O-002
 
 ```text
-"Known SMBv1 CVE successfully exploited"
+SMB service reachable
+        ↓
+Protocol enumeration
+        ↓
+SMBv1 accepted
 ```
 
-The assessment only confirmed that SMBv1 is enabled.
+This represents legacy protocol exposure.
 
-A specific vulnerability would require separate version analysis, applicability validation, and controlled testing before being reported as a confirmed vulnerability.
+Maintaining this distinction prevents the SMBv1 observation from being incorrectly presented as evidence supporting the anonymous-write vulnerability or vice versa.
+
+---
+
+## Recommendation
+
+Recommended remediation actions include:
+
+1. Disable SMBv1 where it is not explicitly required.
+2. Configure the SMB service to permit only supported modern SMB protocol versions.
+3. Identify legacy systems or applications that depend on SMBv1 before disabling compatibility.
+4. Upgrade or replace systems that cannot operate using newer SMB versions.
+5. Keep Samba and the underlying operating system appropriately maintained.
+6. Restrict SMB access to trusted systems and network segments.
+7. Review enabled SMB protocol versions during regular system-hardening assessments.
+8. Remove SMB services entirely where network file sharing is not required.
+
+---
+
+## Remediation Validation
+
+Following remediation, repeat protocol enumeration:
+
+```bash
+nmap -p139,445 --script smb-protocols 192.168.247.129
+```
+
+The resulting output should no longer contain:
+
+```text
+NT LM 0.12 (SMBv1)
+```
+
+Testing should also confirm that legitimate SMB functionality remains available through the approved protocol versions.
 
 ---
 
@@ -172,7 +265,34 @@ A specific vulnerability would require separate version analysis, applicability 
 
 ---
 
-## External Guidance
+## Assessment Note
 
-- Samba 4.11 release notes document SMB1 as deprecated and disabled by default in newer Samba configurations.
-- Microsoft security guidance recommends removing or disabling SMBv1 where it is not required and migrating to SMBv2 or later.
+The evidence supports the following statement:
+
+```text
+SMBv1 support was confirmed on the target.
+```
+
+It does **not** support statements such as:
+
+```text
+SMBv1 remote code execution was confirmed.
+```
+
+or:
+
+```text
+A known SMBv1 CVE was successfully exploited.
+```
+
+A separate vulnerability assessment and controlled validation process would be required before making those claims.
+
+---
+
+## Assessment Conclusion
+
+The assessment confirmed that the target SMB service accepted the legacy SMBv1 `NT LM 0.12` dialect.
+
+Because no SMBv1-specific vulnerability, CVE, code execution, or host compromise was demonstrated, the condition is documented as a **Medium-priority security observation** rather than a confirmed vulnerability finding.
+
+This classification accurately reflects the evidence collected during the assessment without overstating the security impact.
