@@ -10,13 +10,25 @@
 
 **Confirmed**
 
-Testing confirmed that the Apache Tomcat Manager interface was protected from unauthenticated access but could be successfully accessed using the weak credential pair `tomcat:tomcat`.
+Manual testing confirmed that the Apache Tomcat Manager interface required authentication but accepted the weak credential pair `tomcat:tomcat`.
 
-An unauthenticated request to the Manager interface returned HTTP `401 Unauthorized`.
+An unauthenticated request returned:
 
-The same request supplied with the tested credentials returned HTTP `200 OK`, and the Tomcat Web Application Manager interface was successfully accessed through a web browser.
+```text
+HTTP 401 Unauthorized
+```
 
-No application deployment, command execution, reverse shell, or other post-authentication exploitation was performed.
+The same endpoint returned:
+
+```text
+HTTP 200 OK
+```
+
+after the tested credentials were supplied.
+
+Manual browser validation also confirmed access to the **Tomcat Web Application Manager** administrative interface.
+
+No application deployment, command execution, reverse shell, persistence, or other post-authentication exploitation was performed.
 
 ---
 
@@ -25,26 +37,36 @@ No application deployment, command execution, reverse shell, or other post-authe
 | Attribute | Details |
 |---|---|
 | Asset | Simulated Enterprise Server |
-| IP Address | 192.168.247.129 |
+| Asset ID | TG-01 |
+| IP Address | `192.168.247.129` |
 | Service | Apache Tomcat |
 | Port | TCP/8180 |
 | Identified Version | Apache Tomcat/5.5 |
 | Administrative Interface | `/manager/html` |
 | Tested Credentials | `tomcat:tomcat` |
+| Status | Confirmed |
 
 ---
 
 ## Description
 
-The target server exposes the Apache Tomcat Web Application Manager interface on TCP/8180.
+The target server exposed the Apache Tomcat Web Application Manager interface on TCP/8180.
 
-The Manager interface correctly rejected an unauthenticated request with HTTP `401 Unauthorized`, confirming that authentication was required.
+The Manager interface correctly rejected an unauthenticated request with HTTP `401 Unauthorized`, demonstrating that authentication was required.
 
-However, authentication using the weak credential pair `tomcat:tomcat` succeeded. The authenticated request returned HTTP `200 OK`, and manual browser validation confirmed access to the Tomcat Web Application Manager interface.
+However, the weak credential pair:
 
-This represents a significant authentication weakness because a remote user who obtains or guesses the credential pair can gain access to a privileged application-management interface.
+```text
+tomcat:tomcat
+```
 
-The assessment stopped after confirming authenticated administrative access. No application was uploaded or deployed, and no attempt was made to obtain operating-system command execution.
+was successfully accepted.
+
+The authenticated request returned HTTP `200 OK`, and browser validation confirmed access to the Tomcat Web Application Manager interface.
+
+This represents a significant authentication weakness because an attacker with network access to the management interface could potentially guess or obtain the predictable credentials and gain administrative application-management access.
+
+Testing stopped once authenticated administrative access had been sufficiently demonstrated.
 
 ---
 
@@ -52,24 +74,32 @@ The assessment stopped after confirming authenticated administrative access. No 
 
 ### Tomcat Service Identification
 
-Web enumeration identified the service exposed on TCP/8180 as Apache Tomcat:
+Web enumeration identified Apache Tomcat on TCP/8180.
+
+The service returned:
 
 ```text
 8180/tcp open
 HTTP title: Apache Tomcat/5.5
 ```
 
-The identified administrative interface was:
+The administrative interface was identified at:
 
 ```text
 http://192.168.247.129:8180/manager/html
+```
+
+Supporting evidence:
+
+```text
+evidence/enumeration/web-enumeration.txt
 ```
 
 ---
 
 ### Unauthenticated Access Test
 
-The Tomcat Manager interface was first requested without credentials:
+The Tomcat Manager interface was requested without authentication:
 
 ```bash
 curl -i http://192.168.247.129:8180/manager/html
@@ -78,22 +108,34 @@ curl -i http://192.168.247.129:8180/manager/html
 The server returned:
 
 ```text
-HTTP 401 Unauthorized
+HTTP/1.1 401 Unauthorized
 ```
 
-This demonstrated that direct unauthenticated access to the Manager interface was denied and that authentication was required.
+The response also identified the authentication realm as:
+
+```text
+Tomcat Manager Application
+```
+
+This confirmed that the Manager endpoint required authentication.
+
+Supporting evidence:
+
+```text
+evidence/enumeration/tomcat-manager-unauthenticated.txt
+```
 
 ---
 
 ### Authenticated Access Validation
 
-The same Manager endpoint was then tested using the credential pair:
+The same endpoint was then tested using:
 
 ```text
 tomcat:tomcat
 ```
 
-The request was performed using:
+The authenticated request was performed using:
 
 ```bash
 curl -i -u tomcat:tomcat http://192.168.247.129:8180/manager/html
@@ -102,98 +144,146 @@ curl -i -u tomcat:tomcat http://192.168.247.129:8180/manager/html
 The server returned:
 
 ```text
-HTTP 200 OK
+HTTP/1.1 200 OK
 ```
 
-The difference between the unauthenticated `401` response and authenticated `200` response confirms that the supplied credentials were accepted by the Tomcat Manager interface.
+The transition from:
+
+```text
+401 Unauthorized
+```
+
+to:
+
+```text
+200 OK
+```
+
+demonstrated that the supplied credentials were successfully accepted by the Tomcat Manager application.
+
+Supporting evidence:
+
+```text
+evidence/validation/tomcat-manager-authenticated.txt
+```
 
 ---
 
 ### Browser Validation
 
-The authenticated Tomcat Manager interface was also accessed through a web browser.
+The same credentials were used to access the Tomcat Manager interface through a web browser.
 
-Successful access to the **Tomcat Web Application Manager** interface visually confirmed that the tested credentials provided access to the administrative management console.
+Successful access to the **Tomcat Web Application Manager** confirmed that the authenticated session provided access to the administrative management console.
 
-A screenshot was retained as assessment evidence.
+A screenshot of the authenticated Manager interface was retained as supporting evidence:
 
-No credentials were intentionally exposed within the retained screenshot.
+```text
+evidence/validation/tomcat-manager-authenticated-access.png
+```
+
+No password was intentionally exposed within the retained screenshot.
 
 ---
 
 ## Validation Boundary
 
-The objective of validation was to determine whether unauthorized administrative access was possible using weak credentials.
+The purpose of validation was to determine whether weak credentials permitted unauthorized administrative access to the Tomcat Manager interface.
 
-That objective was satisfied once the assessment established all of the following:
+That objective was satisfied once the assessment confirmed:
 
-1. The Tomcat Manager interface was externally reachable from the assessment workstation.
-2. Unauthenticated access was rejected.
-3. The tested credentials were accepted.
-4. An authenticated request returned HTTP `200 OK`.
-5. The Tomcat Web Application Manager interface was accessible through a browser.
+1. TCP/8180 was reachable from the assessment network.
+2. The Tomcat Manager interface was exposed.
+3. Unauthenticated access was denied.
+4. The weak credential pair was accepted.
+5. An authenticated request returned HTTP `200 OK`.
+6. The administrative Manager interface was accessible through a web browser.
 
-Further exploitation was not necessary to establish the security weakness.
+Further exploitation was not required to validate the authentication weakness.
 
 The assessment therefore did **not**:
 
-- Upload or deploy a WAR application
+- Upload a WAR application
+- Deploy attacker-controlled server-side content
 - Execute operating-system commands
 - Establish a reverse shell
 - Modify existing applications
+- Stop or remove applications
 - Create persistence
 - Alter server configuration
 - Access unrelated application data
+- Attempt full host compromise
 
-This maintained a controlled and minimally invasive validation approach.
+Stopping at confirmed administrative access maintained a controlled and minimally invasive validation approach.
 
 ---
 
 ## Security Impact
 
-Access to the Tomcat Manager interface provides an unauthorized user with administrative application-management capabilities.
+The directly demonstrated impact was unauthorized access to a privileged application-management interface using weak credentials.
 
-Depending on the roles and permissions assigned to the compromised Manager account, potential consequences may include:
+Administrative access to Tomcat Manager can expose functionality capable of managing hosted web applications.
 
-- Viewing deployed web applications
+Depending on the privileges assigned to the compromised account, potential consequences may include:
+
+- Viewing deployed applications
 - Managing application state
-- Deploying or modifying web applications
+- Deploying applications
+- Modifying hosted application content
 - Removing applications
 - Disrupting hosted services
 - Introducing unauthorized server-side application content
-- Potential escalation to server-side code execution where deployment functionality and account permissions permit it
 
-The assessment confirmed access to the administrative Manager interface but deliberately did not test application deployment or operating-system command execution.
+Where an account has sufficient deployment privileges, administrative application access may also provide a path toward server-side code execution.
 
-Therefore, this finding demonstrates a serious authentication and administrative-access failure without claiming full host compromise.
+However, application deployment and operating-system command execution were **not tested during this assessment**.
+
+The finding therefore confirms unauthorized administrative access without claiming full server compromise.
 
 ---
 
 ## Risk Analysis
 
-### Likelihood
+### Likelihood — High
+
+The likelihood of abuse is assessed as **High** because:
+
+- The Tomcat Manager interface was directly reachable from the assessment network.
+- The authentication interface was exposed.
+- The tested password was identical to the username.
+- The credential pair was predictable and easily guessable.
+- Successful authentication required minimal technical complexity.
+- Manual testing reproduced the weakness successfully.
+
+---
+
+### Impact — High
+
+The impact is assessed as **High** because:
+
+- The compromised credentials provided access to an administrative application-management interface.
+- Administrative functionality could permit significant alteration or disruption of hosted applications.
+- The access obtained was substantially more privileged than normal application-user access.
+
+The impact is not classified as Critical because:
+
+- Server-side code execution was not validated.
+- Operating-system command execution was not validated.
+- Full host compromise was not demonstrated.
+- Persistence was not established.
+
+---
+
+### Overall Severity — High
 
 **High**
 
-The Tomcat Manager interface was directly reachable from the assessment network, and the credential pair `tomcat:tomcat` successfully authenticated without requiring prior compromise of another account or service.
+Under the assessment's qualitative risk methodology, the combination of **High likelihood** and **High impact** results in an overall **High severity**.
 
-The credential pair is weak because the password is identical to the username and is readily guessable.
+The rating is based on confirmed unauthorized administrative access rather than hypothetical full-system compromise.
 
-### Impact
+See:
 
-**High**
-
-Successful authentication provided access to an administrative application-management interface.
-
-Compromise of such an interface can permit unauthorized modification or disruption of hosted applications and may create a path toward more serious server compromise depending on the permissions available to the authenticated account.
-
-### Overall Risk
-
-**High**
-
-The combination of a remotely accessible administrative interface and easily guessable credentials creates a significant risk of unauthorized administrative access.
-
-The issue is rated **High** rather than Critical because operating-system command execution or full server compromise was not validated during the assessment.
+[`../documentation/risk-methodology.md`](../documentation/risk-methodology.md)
 
 ---
 
@@ -203,38 +293,66 @@ Recommended remediation actions include:
 
 1. Immediately replace weak or predictable Tomcat Manager credentials with strong, unique credentials.
 2. Remove unused or unnecessary Manager accounts.
-3. Ensure administrative account passwords are not identical to usernames or based on common credential patterns.
-4. Restrict access to the Tomcat Manager interface to authorized administrative hosts or trusted management networks.
-5. Apply firewall rules or network segmentation to prevent general user networks from reaching the management interface.
-6. Disable the Tomcat Manager application entirely where it is not operationally required.
-7. Review Tomcat role assignments and grant only the minimum management permissions required.
-8. Periodically audit Tomcat users, roles, and credential configuration.
-9. Monitor authentication attempts to the Manager interface for repeated failures or suspicious access.
-10. Upgrade unsupported or obsolete Tomcat deployments and maintain current security patches.
+3. Ensure passwords are not identical to usernames or based on common credential patterns.
+4. Restrict access to the Tomcat Manager interface to explicitly authorized administrative hosts.
+5. Place administrative interfaces on dedicated management networks where possible.
+6. Apply firewall rules or network segmentation to prevent general user networks from reaching TCP/8180.
+7. Disable the Tomcat Manager application entirely where it is not operationally required.
+8. Review Tomcat role assignments and grant only the minimum administrative permissions required.
+9. Periodically review configured Tomcat users and roles.
+10. Monitor authentication attempts for repeated failures or suspicious administrative access.
+11. Upgrade unsupported or obsolete Tomcat deployments and maintain current security patches.
 
 ---
 
 ## Remediation Validation
 
-Following remediation, validation should confirm that the previously accepted credential pair no longer authenticates.
+Following remediation, the previously accepted credential pair should no longer authenticate.
 
-An unauthenticated request should continue to be denied:
+### Unauthenticated Test
+
+Repeat:
 
 ```bash
 curl -i http://192.168.247.129:8180/manager/html
 ```
 
-The former weak credentials should also fail:
+Unauthenticated access should continue to be denied.
+
+---
+
+### Former Credential Test
+
+Repeat:
 
 ```bash
 curl -i -u tomcat:tomcat http://192.168.247.129:8180/manager/html
 ```
 
-The expected result is that unauthorized authentication is rejected.
+The former credential pair should no longer return:
 
-Where network restrictions are implemented, the Manager interface should additionally be unreachable from non-administrative network segments.
+```text
+HTTP 200 OK
+```
 
-Authorized administrators should confirm that legitimate management access remains functional using approved credentials and permitted management systems.
+Authentication should fail.
+
+---
+
+### Network Restriction Test
+
+Where management-network restrictions have been implemented, the Manager interface should not be accessible from unauthorized network segments.
+
+---
+
+### Authorized Administrative Test
+
+Legitimate administrators should confirm that required management functionality remains available using:
+
+- Approved management systems
+- Authorized accounts
+- Strong unique credentials
+- Appropriate Tomcat roles
 
 ---
 
@@ -251,8 +369,22 @@ Authorized administrators should confirm that legitimate management access remai
 
 The assessment confirmed that the Apache Tomcat Manager interface required authentication but accepted the weak credential pair `tomcat:tomcat`.
 
-The combination of HTTP `401 Unauthorized` without credentials, HTTP `200 OK` after authentication, and successful browser access to the Tomcat Web Application Manager provides sufficient evidence that unauthorized administrative access was possible.
+The evidence chain consisted of:
 
-Additional exploitation was intentionally avoided because it was not necessary to validate the underlying authentication weakness.
+```text
+Manager interface reachable
+        ↓
+Unauthenticated request → 401 Unauthorized
+        ↓
+Weak credentials supplied
+        ↓
+Authenticated request → 200 OK
+        ↓
+Administrative Manager interface accessible
+```
 
-This finding is therefore recorded as a **confirmed High-severity vulnerability**.
+This provides sufficient evidence of a serious authentication weakness resulting in unauthorized administrative application access.
+
+Additional exploitation was deliberately avoided because it was unnecessary to establish the vulnerability.
+
+The issue is therefore classified as a **confirmed High-severity finding**.
