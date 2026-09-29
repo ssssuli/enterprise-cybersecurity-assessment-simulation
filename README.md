@@ -272,7 +272,6 @@ enterprise-cybersecurity-assessment-simulation/
 |
 └── report/
     ├── enterprise-cybersecurity-assessment-report.md
-    └── enterprise-cybersecurity-assessment-report.pdf
 ```
 
 ---
